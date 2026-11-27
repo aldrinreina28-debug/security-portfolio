@@ -1,4 +1,4 @@
-# security-portfolio
+
 # Aldrin Reina — Seguridad web · Blue & Purple Team
 
 Estudiante del **OTHM Level 5 Diploma in Cyber Security** (en curso), orientado a la seguridad de aplicaciones web y móviles y a la defensa (blue/purple team). Combino la formación con práctica real en entornos de laboratorio y programas de bug bounty, con un enfoque metódico y basado en evidencias.
@@ -18,8 +18,10 @@ Burp Suite · OWASP ZAP · MobSF · Metasploit · Kali Linux · MITRE ATT&CK Nav
 
 ## 🔗 Perfiles
 - LinkedIn: https://www.linkedin.com/in/aldrin-reina-64b8b8377/
-- Letsdefend: https://app.letsdefend.io/user/Adrimost
+- LetsDefend: https://app.letsdefend.io/user/Adrimost
 - Credly (badges): https://www.credly.com/users/aldri-reina
 
 ## 📑 Writeups
-*(se irán añadiendo aquí a medida que los publique)*
+- [vsftpd 2.3.4 backdoor (Metasploitable)](vsftpd-backdoor.md)
+- [OWASP Juice Shop — evaluación web](juice-shop.md)
+- [Investigación SOC — phishing e infostealer](soc338-lumma-stealer.md)
