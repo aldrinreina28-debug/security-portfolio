@@ -32,7 +32,6 @@ La aplicación devuelve un error no controlado que puede revelar información in
 - OWASP Top 10: A05 Security Misconfiguration.
 - **Impacto:** fuga de información útil para un atacante.
 
-<img width="1919" height="1020" alt="Screenshot 2026-11-06 11151osw" src="https://github.com/user-attachments/assets/c3038344-3ed9-4d8b-9f0c-d4213a3b1f8b" />
 
 
 ## Remediación
