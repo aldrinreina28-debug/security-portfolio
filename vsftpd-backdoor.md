@@ -22,7 +22,7 @@ El servicio **vsftpd 2.3.4** contiene un **backdoor malicioso** (CVE-2011-2523) 
 ## Resultado
 Sesión obtenida con privilegios de **root** (`getuid` → `Server username: root`): compromiso total del sistema.
 
-*(aquí pega tu captura de la sesión como root)*
+
 
 ## Impacto
 - **Severidad: Crítica.**
