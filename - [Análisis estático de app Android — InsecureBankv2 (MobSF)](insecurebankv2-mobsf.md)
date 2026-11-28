@@ -1,0 +1,68 @@
+# Análisis estático de seguridad — InsecureBankv2 (Android)
+
+**Objetivo:** [InsecureBankv2](https://github.com/dineshshetty/Android-InsecureBankv2), una aplicación bancaria **deliberadamente vulnerable** creada para practicar análisis de seguridad en Android.
+**Tipo:** laboratorio público (no hay cliente ni datos confidenciales).
+**Técnica:** análisis estático del APK con **MobSF** (Mobile Security Framework).
+
+---
+
+## Resumen
+
+| Dato | Valor |
+| --- | --- |
+| Paquete | `com.android.insecurebankv2` |
+| Actividad principal | `LoginActivity` |
+| Target SDK / Min SDK | 22 / 15 (Android 4.0.3) |
+| Puntuación de seguridad | **28/100 — Grado F (Riesgo Crítico)** |
+| Hallazgos | 7 High · 9 Medium · 1 Hotspot |
+
+El resultado era de esperar en un target vulnerable, pero el valor del ejercicio está en **entender por qué** falla cada cosa y cómo se corregiría.
+
+---
+
+## Hallazgos principales
+
+### 1. Firma vulnerable a Janus (esquema v1)
+
+El APK está firmado **solo con el esquema de firma v1** (v2, v3 y v4 en `False`).
+
+- **Por qué importa:** una app firmada únicamente con v1 es vulnerable a **Janus** (CVE-2017-13156) en Android 5.0–8.0. Permite inyectar código malicioso en el APK **sin romper la firma**, por lo que el dispositivo lo sigue aceptando como legítimo.
+- **Corrección:** firmar también con los esquemas **v2/v3**, que validan la integridad de todo el fichero.
+
+### 2. Aplicación depurable — `android:debuggable=true`
+
+- **Por qué importa:** con la depuración activada, un atacante puede **conectar un depurador** a la app, volcar la memoria, leer variables en tiempo de ejecución y acceder a clases internas. En una app bancaria eso puede exponer credenciales y datos de sesión.
+- **Corrección:** poner `android:debuggable=false` en la versión de producción.
+
+### 3. Copias de seguridad permitidas — `android:allowBackup=true`
+
+- **Por qué importa:** este flag permite que **cualquiera con depuración USB** copie los datos de la app vía `adb backup`. En una app bancaria, eso son datos de cuenta y de usuario.
+- **Corrección:** establecer `android:allowBackup=false`.
+
+### 4. Instalable en versiones de Android obsoletas — `minSdk=15`
+
+- **Por qué importa:** `minSdk=15` permite instalar la app en Android 4.0.3, versiones que **ya no reciben parches de seguridad**. La app heredaría vulnerabilidades sin corregir del propio sistema.
+- **Corrección:** subir el `minSdk` a **API 29 (Android 10)** o superior.
+
+### 5. Componentes exportados sin protección
+
+El análisis de componentes marca en rojo:
+
+- **4 actividades exportadas**
+- **1 receiver exportado**
+- **1 content provider exportado**
+
+- **Por qué importa:** un componente **exportado** puede ser invocado por **otras apps instaladas en el dispositivo**. Según cómo esté implementado, eso puede permitir saltarse la pantalla de login, lanzar acciones internas o leer datos a través del content provider.
+- **Corrección:** marcar `android:exported="false"` en los componentes que no necesiten ser públicos, o protegerlos con **permisos personalizados**.
+
+---
+
+## Lo que aprendí
+
+- El **análisis estático** detecta una gran parte del riesgo **antes de tocar la app en ejecución**: aquí, los problemas más graves no están en lógica compleja, sino en **la configuración del manifiesto y en una firma débil**, que son errores muy comunes también en apps reales.
+- Un "Grado F" automático no es el final del trabajo: lo importante es **saber leer cada hallazgo**, entender su impacto real y proponer la corrección concreta.
+- Próximo paso natural: complementar con **análisis dinámico** (la app en ejecución) para confirmar hallazgos como el almacenamiento inseguro de credenciales.
+
+---
+
+*Análisis realizado sobre un objetivo de laboratorio público con fines de aprendizaje.*
