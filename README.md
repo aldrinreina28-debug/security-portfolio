@@ -25,3 +25,4 @@ Burp Suite · OWASP ZAP · MobSF · Metasploit · Kali Linux · MITRE ATT&CK Nav
 - [vsftpd 2.3.4 backdoor (Metasploitable)](vsftpd-backdoor.md)
 - [OWASP Juice Shop — evaluación web](juice-shop.md)
 - [Investigación SOC — phishing e infostealer](soc338-lumma-stealer.md)
+- [Análisis estático de app Android — InsecureBankv2 (MobSF)](insecurebankv2-mobsf.md)
